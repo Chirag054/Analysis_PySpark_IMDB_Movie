@@ -1,0 +1,480 @@
+
+# Read the csv file -----------------------------
+
+>>> df = spark.read.csv('IMDB_movies_data')
+
+DataFrame[_c0: string, _c1: string, _c2: string, _c3: string, _c4: string, _c5: string, _c6: string, _c7: string, _c8: string, _c9: string, _c10: string, _c11: string]
+
+
+>>> df.show()
+
+
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+
+| _c0|                 _c1|                 _c2|                 _c3|                 _c4|                 _c5|                 _c6|              _c7|   _c8|   _c9|              _c10|     _c11|
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+
+|Rank|               Title|               Genre|         Description|            Director|              Actors|                Year|Runtime (Minutes)|Rating| Votes|Revenue (Millions)|Metascore|
+|   1|Guardians of the ...|Action,Adventure,...|A group of interg...|          James Gunn|Chris Pratt, Vin ...|                2014|              121|   8.1|757074|            333.13|       76|
+|   2|          Prometheus|Adventure,Mystery...|Following clues t...|        Ridley Scott|Noomi Rapace, Log...|                2012|              124|     7|485820|            126.46|       65|
+|   3|               Split|     Horror,Thriller|Three girls are k...|  M. Night Shyamalan|James McAvoy, Any...|                2016|              117|   7.3|157606|            138.12|       62|
+|   4|                Sing|Animation,Comedy,...|In a city of huma...|Christophe Lourdelet|Matthew McConaugh...|                2016|              108|   7.2| 60545|            270.32|       59|
+|   5|       Suicide Squad|Action,Adventure,...|A secret governme...|          David Ayer|Will Smith, Jared...|                2016|              123|   6.2|393727|            325.02|       40|
+|   6|      The Great Wall|Action,Adventure,...|European mercenar...|         Yimou Zhang|Matt Damon, Tian ...|                2016|              103|   6.1| 56036|             45.13|       42|
+|   7|          La La Land|  Comedy,Drama,Music|A jazz pianist fa...|     Damien Chazelle|Ryan Gosling, Emm...|                2016|              128|   8.3|258682|            151.06|       93|
+|   8|            Mindhorn|              Comedy|"A has-been actor...| whom he believes...|          Sean Foley|Essie Davis, Andr...|             2016|    89|   6.4|              2490|     null|
+|   9|  The Lost City of Z|Action,Adventure,...|A true-life drama...|          James Gray|Charlie Hunnam, R...|                2016|              141|   7.1|  7188|              8.01|       78|
+|  10|          Passengers|Adventure,Drama,R...|A spacecraft trav...|       Morten Tyldum|Jennifer Lawrence...|                2016|              116|     7|192177|            100.01|       41|
+|  11|Fantastic Beasts ...|Adventure,Family,...|The adventures of...|         David Yates|Eddie Redmayne, K...|                2016|              133|   7.5|232072|            234.02|       66|
+|  12|      Hidden Figures|Biography,Drama,H...|The story of a te...|      Theodore Melfi|Taraji P. Henson,...|                2016|              127|   7.8| 93103|            169.27|       74|
+|  13|           Rogue One|Action,Adventure,...|The Rebel Allianc...|      Gareth Edwards|Felicity Jones, D...|                2016|              133|   7.9|323118|            532.17|       65|
+|  14|               Moana|Animation,Adventu...|In Ancient Polyne...|        Ron Clements|Auli'i Cravalho, ...|                2016|              107|   7.7|118151|            248.75|       81|
+|  15|            Colossal| Action,Comedy,Drama|Gloria is an out-...|     Nacho Vigalondo|Anne Hathaway, Ja...|                2016|              109|   6.4|  8612|              2.87|       70|
+|  16|The Secret Life o...|Animation,Adventu...|The quiet life of...|        Chris Renaud|Louis C.K., Eric ...|                2016|               87|   6.6|120259|            368.31|       61|
+|  17|       Hacksaw Ridge|Biography,Drama,H...|WWII American Arm...|          Mel Gibson|Andrew Garfield, ...|                2016|              139|   8.2|211760|             67.12|       71|
+|  18|        Jason Bourne|     Action,Thriller|The CIA's most da...|     Paul Greengrass|Matt Damon, Tommy...|                2016|              123|   6.7|150823|            162.16|       58|
+|  19|                Lion|     Biography,Drama|A five-year-old I...|         Garth Davis|Dev Patel, Nicole...|                2016|              118|   8.1|102061|             51.69|       69|
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+
+only showing top 20 rows
+
+
+# With header ---------------------------------
+
+
+>>> df1 = spark.read.option('header','true').csv('IMDB_movies_data.csv')
+
+# type of dataframe -------------------------
+
+
+>>> type(df1)
+<class 'pyspark.sql.dataframe.DataFrame'>
+
+
+# top 3 rows ---------------------------
+
+>>> df.head(3)
+
+[Row(_c0='Rank', _c1='Title', _c2='Genre', _c3='Description', _c4='Director', _c5='Actors', _c6='Year', _c7='Runtime (Minutes)', _c8='Rating', _c9='Votes', _c10='Revenue (Millions)', _c11='Metascore'), Row(_c0='1', _c1='Guardians of the Galaxy', _c2='Action,Adventure,Sci-Fi', _c3='A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.', _c4='James Gunn', _c5='Chris Pratt, Vin Diesel, Bradley Cooper, Zoe Saldana', _c6='2014', _c7='121', _c8='8.1', _c9='757074', _c10='333.13', _c11='76'), Row(_c0='2', _c1='Prometheus', _c2='Adventure,Mystery,Sci-Fi', _c3='Following clues to the origin of mankind, a team finds a structure on a distant moon, but they soon realize they are not alone.', _c4='Ridley Scott', _c5='Noomi Rapace, Logan Marshall-Green, Michael Fassbender, Charlize Theron', _c6='2012', _c7='124', _c8='7', _c9='485820', _c10='126.46', _c11='65')]
+
+# See the schema -------------------------------
+
+
+>>> df.printSchema()
+
+root
+ |-- _c0: string (nullable = true)
+ |-- _c1: string (nullable = true)
+ |-- _c2: string (nullable = true)
+ |-- _c3: string (nullable = true)
+ |-- _c4: string (nullable = true)
+ |-- _c5: string (nullable = true)
+ |-- _c6: string (nullable = true)
+ |-- _c7: string (nullable = true)
+ |-- _c8: string (nullable = true)
+ |-- _c9: string (nullable = true)
+ |-- _c10: string (nullable = true)
+ |-- _c11: string (nullable = true)
+
+>>> #read the dataset----------------------
+
+>>> df1 = spark.read.option('header','true').csv('IMDB_movies_data.csv')
+>>> df1.show()
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+
+|Rank|               Title|               Genre|         Description|            Director|              Actors|                Year|Runtime (Minutes)|Rating| Votes|Revenue (Millions)|Metascore|
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+
+|   1|Guardians of the ...|Action,Adventure,...|A group of interg...|          James Gunn|Chris Pratt, Vin ...|                2014|              121|   8.1|757074|            333.13|       76|
+|   2|          Prometheus|Adventure,Mystery...|Following clues t...|        Ridley Scott|Noomi Rapace, Log...|                2012|              124|     7|485820|            126.46|       65|
+|   3|               Split|     Horror,Thriller|Three girls are k...|  M. Night Shyamalan|James McAvoy, Any...|                2016|              117|   7.3|157606|            138.12|       62|
+|   4|                Sing|Animation,Comedy,...|In a city of huma...|Christophe Lourdelet|Matthew McConaugh...|                2016|              108|   7.2| 60545|            270.32|       59|
+|   5|       Suicide Squad|Action,Adventure,...|A secret governme...|          David Ayer|Will Smith, Jared...|                2016|              123|   6.2|393727|            325.02|       40|
+|   6|      The Great Wall|Action,Adventure,...|European mercenar...|         Yimou Zhang|Matt Damon, Tian ...|                2016|              103|   6.1| 56036|             45.13|       42|
+|   7|          La La Land|  Comedy,Drama,Music|A jazz pianist fa...|     Damien Chazelle|Ryan Gosling, Emm...|                2016|              128|   8.3|258682|            151.06|       93|
+|   8|            Mindhorn|              Comedy|"A has-been actor...| whom he believes...|          Sean Foley|Essie Davis, Andr...|             2016|    89|   6.4|              2490|     null|
+|   9|  The Lost City of Z|Action,Adventure,...|A true-life drama...|          James Gray|Charlie Hunnam, R...|                2016|              141|   7.1|  7188|              8.01|       78|
+|  10|          Passengers|Adventure,Drama,R...|A spacecraft trav...|       Morten Tyldum|Jennifer Lawrence...|                2016|              116|     7|192177|            100.01|       41|
+|  11|Fantastic Beasts ...|Adventure,Family,...|The adventures of...|         David Yates|Eddie Redmayne, K...|                2016|              133|   7.5|232072|            234.02|       66|
+|  12|      Hidden Figures|Biography,Drama,H...|The story of a te...|      Theodore Melfi|Taraji P. Henson,...|                2016|              127|   7.8| 93103|            169.27|       74|
+|  13|           Rogue One|Action,Adventure,...|The Rebel Allianc...|      Gareth Edwards|Felicity Jones, D...|                2016|              133|   7.9|323118|            532.17|       65|
+|  14|               Moana|Animation,Adventu...|In Ancient Polyne...|        Ron Clements|Auli'i Cravalho, ...|                2016|              107|   7.7|118151|            248.75|       81|
+|  15|            Colossal| Action,Comedy,Drama|Gloria is an out-...|     Nacho Vigalondo|Anne Hathaway, Ja...|                2016|              109|   6.4|  8612|              2.87|       70|
+|  16|The Secret Life o...|Animation,Adventu...|The quiet life of...|        Chris Renaud|Louis C.K., Eric ...|                2016|               87|   6.6|120259|            368.31|       61|
+|  17|       Hacksaw Ridge|Biography,Drama,H...|WWII American Arm...|          Mel Gibson|Andrew Garfield, ...|                2016|              139|   8.2|211760|             67.12|       71|
+|  18|        Jason Bourne|     Action,Thriller|The CIA's most da...|     Paul Greengrass|Matt Damon, Tommy...|                2016|              123|   6.7|150823|            162.16|       58|
+|  19|                Lion|     Biography,Drama|A five-year-old I...|         Garth Davis|Dev Patel, Nicole...|                2016|              118|   8.1|102061|             51.69|       69|
+|  20|             Arrival|Drama,Mystery,Sci-Fi|When twelve myste...|    Denis Villeneuve|Amy Adams, Jeremy...|                2016|              116|     8|340798|             100.5|       81|
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+
+only showing top 20 rows
+
+>>> # how to show schema -------------------------------
+>>> df.printSchema()
+root
+ |-- _c0: string (nullable = true)
+ |-- _c1: string (nullable = true)
+ |-- _c2: string (nullable = true)
+ |-- _c3: string (nullable = true)
+ |-- _c4: string (nullable = true)
+ |-- _c5: string (nullable = true)
+ |-- _c6: string (nullable = true)
+ |-- _c7: string (nullable = true)
+ |-- _c8: string (nullable = true)
+ |-- _c9: string (nullable = true)
+ |-- _c10: string (nullable = true)
+ |-- _c11: string (nullable = true)
+
+>>> #inferschema -------------------------------
+
+>>> df1 = spark.read.option('header','true').csv('IMDB_movies_data.csv',inferSchema = True)
+>>> df.printSchema()
+root
+ |-- _c0: string (nullable = true)
+ |-- _c1: string (nullable = true)
+ |-- _c2: string (nullable = true)
+ |-- _c3: string (nullable = true)
+ |-- _c4: string (nullable = true)
+ |-- _c5: string (nullable = true)
+ |-- _c6: string (nullable = true)
+ |-- _c7: string (nullable = true)
+ |-- _c8: string (nullable = true)
+ |-- _c9: string (nullable = true)
+ |-- _c10: string (nullable = true)
+ |-- _c11: string (nullable = true)
+
+>>> df1.printSchema()
+root
+ |-- Rank: integer (nullable = true)
+ |-- Title: string (nullable = true)
+ |-- Genre: string (nullable = true)
+ |-- Description: string (nullable = true)
+ |-- Director: string (nullable = true)
+ |-- Actors: string (nullable = true)
+ |-- Year: string (nullable = true)
+ |-- Runtime (Minutes): string (nullable = true)
+ |-- Rating: string (nullable = true)
+ |-- Votes: string (nullable = true)
+ |-- Revenue (Millions): double (nullable = true)
+ |-- Metascore: double (nullable = true)
+
+>>> #another way ------------------
+>>> df = spark.read.csv('IMDB_movies_data.csv',inferSchema = True)
+>>> df.printSchema()
+root
+ |-- _c0: string (nullable = true)
+ |-- _c1: string (nullable = true)
+ |-- _c2: string (nullable = true)
+ |-- _c3: string (nullable = true)
+ |-- _c4: string (nullable = true)
+ |-- _c5: string (nullable = true)
+ |-- _c6: string (nullable = true)
+ |-- _c7: string (nullable = true)
+ |-- _c8: string (nullable = true)
+ |-- _c9: string (nullable = true)
+ |-- _c10: string (nullable = true)
+ |-- _c11: string (nullable = true)
+
+
+>>> #see the columns ---------------------------
+
+
+>>> df.columns
+['_c0', '_c1', '_c2', '_c3', '_c4', '_c5', '_c6', '_c7', '_c8', '_c9', '_c10', '_c11']
+
+>>> df = spark.read.csv('IMDB_movies_data.csv', header = True, inferSchema = True)
+
+>>> df.columns
+
+['Rank', 'Title', 'Genre', 'Description', 'Director', 'Actors', 'Year', 'Runtime (Minutes)', 'Rating', 'Votes', 'Revenue (Millions)', 'Metascore']
+
+
+>>> # top 5 records -----------------------
+
+
+>>> df.head(5)
+[Row(Rank=1, Title='Guardians of the Galaxy', Genre='Action,Adventure,Sci-Fi', Description='A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.', Director='James Gunn', Actors='Chris Pratt, Vin Diesel, Bradley Cooper, Zoe Saldana', Year='2014', Runtime (Minutes)='121', Rating='8.1', Votes='757074', Revenue (Millions)=333.13, Metascore=76.0), Row(Rank=2, Title='Prometheus', Genre='Adventure,Mystery,Sci-Fi', Description='Following clues to the origin of mankind, a team finds a structure on a distant moon, but they soon realize they are not alone.', Director='Ridley Scott', Actors='Noomi Rapace, Logan Marshall-Green, Michael Fassbender, Charlize Theron', Year='2012', Runtime (Minutes)='124', Rating='7', Votes='485820', Revenue (Millions)=126.46, Metascore=65.0), Row(Rank=3, Title='Split', Genre='Horror,Thriller', Description='Three girls are kidnapped by a man with a diagnosed 23 distinct personalities. They must try to escape before the apparent emergence of a frightful new 24th.', Director='M. Night Shyamalan', Actors='James McAvoy, Anya Taylor-Joy, Haley Lu Richardson, Jessica Sula', Year='2016', Runtime (Minutes)='117', Rating='7.3', Votes='157606', Revenue (Millions)=138.12, Metascore=62.0), Row(Rank=4, Title='Sing', Genre='Animation,Comedy,Family', Description="In a city of humanoid animals, a hustling theater impresario's attempt to save his theater with a singing competition becomes grander than he anticipates even as its finalists' find that their lives will never be the same.", Director='Christophe Lourdelet', Actors='Matthew McConaughey,Reese Witherspoon, Seth MacFarlane, Scarlett Johansson', Year='2016', Runtime (Minutes)='108', Rating='7.2', Votes='60545', Revenue (Millions)=270.32, Metascore=59.0), Row(Rank=5, Title='Suicide Squad', Genre='Action,Adventure,Fantasy', Description='A secret government agency recruits some of the most dangerous incarcerated super-villains to form a defensive task force. Their first mission: save the world from the apocalypse.', Director='David Ayer', Actors='Will Smith, Jared Leto, Margot Robbie, Viola Davis', Year='2016', Runtime (Minutes)='123', Rating='6.2', Votes='393727', Revenue (Millions)=325.02, Metascore=40.0)]
+>>>
+>>> #see only one column ---------------------
+>>>
+>>> df.select('Rank')
+DataFrame[Rank: int]
+>>> df.select('Rank').show()
++----+
+|Rank|
++----+
+|   1|
+|   2|
+|   3|
+|   4|
+|   5|
+|   6|
+|   7|
+|   8|
+|   9|
+|  10|
+|  11|
+|  12|
+|  13|
+|  14|
+|  15|
+|  16|
+|  17|
+|  18|
+|  19|
+|  20|
++----+
+only showing top 20 rows
+
+>>>
+>>> # multiple columns ---------------------------
+>>>
+>>> df.select('Rank','Title').show()
++----+--------------------+
+|Rank|               Title|
++----+--------------------+
+|   1|Guardians of the ...|
+|   2|          Prometheus|
+|   3|               Split|
+|   4|                Sing|
+|   5|       Suicide Squad|
+|   6|      The Great Wall|
+|   7|          La La Land|
+|   8|            Mindhorn|
+|   9|  The Lost City of Z|
+|  10|          Passengers|
+|  11|Fantastic Beasts ...|
+|  12|      Hidden Figures|
+|  13|           Rogue One|
+|  14|               Moana|
+|  15|            Colossal|
+|  16|The Secret Life o...|
+|  17|       Hacksaw Ridge|
+|  18|        Jason Bourne|
+|  19|                Lion|
+|  20|             Arrival|
++----+--------------------+
+only showing top 20 rows
+
+
+>>> # see the summary-----------------------------
+>>>
+>>> df.select('Rank','Title').describe().show()
++-------+-----------------+--------------------+
+|summary|             Rank|               Title|
++-------+-----------------+--------------------+
+|  count|             1000|                1000|
+|   mean|            500.5|   635.6666666666666|
+| stddev|288.8194360957494|   860.1559548515994|
+|    min|                1|(500) Days of Summer|
+|    max|             1000|            Zootopia|
++-------+-----------------+--------------------+
+
+>>>
+>>>
+>>> # see the 1st records --------------------------------
+>>>
+>>> df.take(1)
+[Row(Rank=1, Title='Guardians of the Galaxy', Genre='Action,Adventure,Sci-Fi', Description='A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.', Director='James Gunn', Actors='Chris Pratt, Vin Diesel, Bradley Cooper, Zoe Saldana', Year='2014', Runtime (Minutes)='121', Rating='8.1', Votes='757074', Revenue (Millions)=333.13, Metascore=76.0)]
+>>>
+>>>
+>>> # Convert to pandas df ------------------------------------
+>>>
+>>> df.toPandas()
+     Rank                    Title  ... Revenue (Millions) Metascore
+0       1  Guardians of the Galaxy  ...             333.13      76.0
+1       2               Prometheus  ...             126.46      65.0
+2       3                    Split  ...             138.12      62.0
+3       4                     Sing  ...             270.32      59.0
+4       5            Suicide Squad  ...             325.02      40.0
+..    ...                      ...  ...                ...       ...
+995   996     Secret in Their Eyes  ...                NaN      45.0
+996   997          Hostel: Part II  ...              17.54      46.0
+997   998   Step Up 2: The Streets  ...              58.01      50.0
+998   999             Search Party  ...                NaN      22.0
+999  1000               Nine Lives  ...              19.64      11.0
+
+[1000 rows x 12 columns]
+>>>
+>>>
+>>> # show column instance ---------------
+>>> df.Rank
+Column<b'Rank'>
+>>>
+>>>
+>>> # function -------------------------------
+>>>
+>>> from pyspark.sql import Column
+>>> from pyspark.sql.functions import upper
+
+>>> # convert into Upper case ---------------------
+>>>
+>>> df.select(df.Title).show()
++--------------------+
+|               Title|
++--------------------+
+|Guardians of the ...|
+|          Prometheus|
+|               Split|
+|                Sing|
+|       Suicide Squad|
+|      The Great Wall|
+|          La La Land|
+|            Mindhorn|
+|  The Lost City of Z|
+|          Passengers|
+|Fantastic Beasts ...|
+|      Hidden Figures|
+|           Rogue One|
+|               Moana|
+|            Colossal|
+|The Secret Life o...|
+|       Hacksaw Ridge|
+|        Jason Bourne|
+|                Lion|
+|             Arrival|
++--------------------+
+only showing top 20 rows
+
+>>> # add new column for upper case -------------------------
+>>>
+>>> df.withColumn('New_Col',upper(df.Title)).show()
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+--------------------+
+|Rank|               Title|               Genre|         Description|            Director|              Actors|                Year|Runtime (Minutes)|Rating| Votes|Revenue (Millions)|Metascore|             New_Col|
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+--------------------+
+|   1|Guardians of the ...|Action,Adventure,...|A group of interg...|          James Gunn|Chris Pratt, Vin ...|                2014|              121|   8.1|757074|            333.13|     76.0|GUARDIANS OF THE ...|
+|   2|          Prometheus|Adventure,Mystery...|Following clues t...|        Ridley Scott|Noomi Rapace, Log...|                2012|              124|     7|485820|            126.46|     65.0|          PROMETHEUS|
+|   3|               Split|     Horror,Thriller|Three girls are k...|  M. Night Shyamalan|James McAvoy, Any...|                2016|              117|   7.3|157606|            138.12|     62.0|               SPLIT|
+|   4|                Sing|Animation,Comedy,...|In a city of huma...|Christophe Lourdelet|Matthew McConaugh...|                2016|              108|   7.2| 60545|            270.32|     59.0|                SING|
+|   5|       Suicide Squad|Action,Adventure,...|A secret governme...|          David Ayer|Will Smith, Jared...|                2016|              123|   6.2|393727|            325.02|     40.0|       SUICIDE SQUAD|
+|   6|      The Great Wall|Action,Adventure,...|European mercenar...|         Yimou Zhang|Matt Damon, Tian ...|                2016|              103|   6.1| 56036|             45.13|     42.0|      THE GREAT WALL|
+|   7|          La La Land|  Comedy,Drama,Music|A jazz pianist fa...|     Damien Chazelle|Ryan Gosling, Emm...|                2016|              128|   8.3|258682|            151.06|     93.0|          LA LA LAND|
+|   8|            Mindhorn|              Comedy|"A has-been actor...| whom he believes...|          Sean Foley|Essie Davis, Andr...|             2016|    89|   6.4|            2490.0|     null|            MINDHORN|
+|   9|  The Lost City of Z|Action,Adventure,...|A true-life drama...|          James Gray|Charlie Hunnam, R...|                2016|              141|   7.1|  7188|              8.01|     78.0|  THE LOST CITY OF Z|
+|  10|          Passengers|Adventure,Drama,R...|A spacecraft trav...|       Morten Tyldum|Jennifer Lawrence...|                2016|              116|     7|192177|            100.01|     41.0|          PASSENGERS|
+|  11|Fantastic Beasts ...|Adventure,Family,...|The adventures of...|         David Yates|Eddie Redmayne, K...|                2016|              133|   7.5|232072|            234.02|     66.0|FANTASTIC BEASTS ...|
+|  12|      Hidden Figures|Biography,Drama,H...|The story of a te...|      Theodore Melfi|Taraji P. Henson,...|                2016|              127|   7.8| 93103|            169.27|     74.0|      HIDDEN FIGURES|
+|  13|           Rogue One|Action,Adventure,...|The Rebel Allianc...|      Gareth Edwards|Felicity Jones, D...|                2016|              133|   7.9|323118|            532.17|     65.0|           ROGUE ONE|
+|  14|               Moana|Animation,Adventu...|In Ancient Polyne...|        Ron Clements|Auli'i Cravalho, ...|                2016|              107|   7.7|118151|            248.75|     81.0|               MOANA|
+|  15|            Colossal| Action,Comedy,Drama|Gloria is an out-...|     Nacho Vigalondo|Anne Hathaway, Ja...|                2016|              109|   6.4|  8612|              2.87|     70.0|            COLOSSAL|
+|  16|The Secret Life o...|Animation,Adventu...|The quiet life of...|        Chris Renaud|Louis C.K., Eric ...|                2016|               87|   6.6|120259|            368.31|     61.0|THE SECRET LIFE O...|
+|  17|       Hacksaw Ridge|Biography,Drama,H...|WWII American Arm...|          Mel Gibson|Andrew Garfield, ...|                2016|              139|   8.2|211760|             67.12|     71.0|       HACKSAW RIDGE|
+|  18|        Jason Bourne|     Action,Thriller|The CIA's most da...|     Paul Greengrass|Matt Damon, Tommy...|                2016|              123|   6.7|150823|            162.16|     58.0|        JASON BOURNE|
+|  19|                Lion|     Biography,Drama|A five-year-old I...|         Garth Davis|Dev Patel, Nicole...|                2016|              118|   8.1|102061|             51.69|     69.0|                LION|
+|  20|             Arrival|Drama,Mystery,Sci-Fi|When twelve myste...|    Denis Villeneuve|Amy Adams, Jeremy...|                2016|              116|     8|340798|             100.5|     81.0|             ARRIVAL|
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+--------------------+
+only showing top 20 rows
+
+>>>
+>>> #filter data ---------------------------------
+>>>
+>>> df.filter(df.Rank ==9).show()
++----+------------------+--------------------+--------------------+----------+--------------------+----+-----------------+------+-----+------------------+---------+
+|Rank|             Title|               Genre|         Description|  Director|              Actors|Year|Runtime (Minutes)|Rating|Votes|Revenue (Millions)|Metascore|
++----+------------------+--------------------+--------------------+----------+--------------------+----+-----------------+------+-----+------------------+---------+
+|   9|The Lost City of Z|Action,Adventure,...|A true-life drama...|James Gray|Charlie Hunnam, R...|2016|              141|   7.1| 7188|              8.01|     78.0|
++----+------------------+--------------------+--------------------+----------+--------------------+----+-----------------+------+-----+------------------+---------+
+
+>>>
+>>>
+>>> # grouping data ----------------------------------
+
+>>> df.groupby('Metascore').avg().show()
++---------+------------------+-----------------------+--------------+
+|Metascore|         avg(Rank)|avg(Revenue (Millions))|avg(Metascore)|
++---------+------------------+-----------------------+--------------+
+|     70.0|             599.2|      69.86555555555556|          70.0|
+|     67.0|             427.2|      72.33333333333333|          67.0|
+|     69.0|443.52941176470586|              111.20875|          69.0|
+|  22389.0|             185.0|                    8.0|       22389.0|
+|     88.0|           362.875|                71.9525|          88.0|
+|     49.0|             487.4|      66.30923076923077|          49.0|
+|     98.0|             231.0|                  37.62|          98.0|
+|     29.0|            578.25|                  46.26|          29.0|
+|     75.0|             238.5|     158.05875000000003|          75.0|
+|     64.0| 526.4782608695652|      74.17299999999999|          64.0|
+|     47.0|          538.6875|     45.221333333333334|          47.0|
+|     42.0| 526.2941176470588|                 67.176|          42.0|
+|     44.0| 519.5714285714286|     100.18083333333334|          44.0|
+|     62.0|          556.8125|     118.78312499999998|          62.0|
+|     null| 537.9705882352941|      1343.417368421052|          null|
+|     96.0|             283.5|               146.2225|          96.0|
+|     35.0| 505.3636363636364|                 74.704|          35.0|
+|     18.0|             368.0|                  25.61|          18.0|
+|     80.0|             574.5|      91.46249999999999|          80.0|
+|     86.0|467.57142857142856|      79.34333333333333|          86.0|
++---------+------------------+-----------------------+--------------+
+only showing top 20 rows
+
+>>> df.groupby('Year').avg().show()
++--------------------+------------------+-----------------------+------------------+
+|                Year|         avg(Rank)|avg(Revenue (Millions))|    avg(Metascore)|
++--------------------+------------------+-----------------------+------------------+
+|                2016|376.11986301369865|      54.73579207920793| 58.22433460076046|
+|                2012|           532.875|     107.97328125000004|61.145161290322584|
+|                2014| 506.8333333333333|      85.96630434782607|57.666666666666664|
+|Dane DeHaan, Jaso...|             202.0|                12193.0|               8.1|
+|                2013| 556.2307692307693|      87.12181818181814| 58.53488372093023|
+|  Alessandro Carloni|             604.0|                    7.2|           89791.0|
+|                2009| 586.8235294117648|     112.60127659574471| 57.12244897959184|
+|                2006| 589.1627906976744|      88.39073170731709|            64.375|
+|Srdjan 'Zika' Tod...|             429.0|                43648.0|              null|
+|       Evan Goldberg|             632.0|                    6.6|          261536.0|
+|                2011| 589.5714285714286|      87.61225806451614|61.724137931034484|
+|                2008| 625.6346153846154|      99.08274509803925| 57.40816326530612|
+|Jake Johnson, Dam...|             984.0|               112729.0|             82.39|
+| together with Sc...|             386.0|                 2015.0|             121.0|
+|                2007| 576.5849056603773|       87.8822448979592|              64.5|
+|Essie Davis, Andr...|               8.0|                 2490.0|              null|
+|Anna Hutchison, A...|             969.0|                 1210.0|              null|
+|Jason Biggs, Jane...|             978.0|                 2229.0|              null|
+|Anna Kendrick, Sa...|             619.0|                30053.0|              0.03|
+|                2015|487.36290322580646|      79.37693693693696| 57.19166666666667|
++--------------------+------------------+-----------------------+------------------+
+only showing top 20 rows
+
+>>>
+>>>
+>>> # drop the column -------------------------
+>>>
+>>> df.drop('New_Col').show()
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+
+|Rank|               Title|               Genre|         Description|            Director|              Actors|                Year|Runtime (Minutes)|Rating| Votes|Revenue (Millions)|Metascore|
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+
+|   1|Guardians of the ...|Action,Adventure,...|A group of interg...|          James Gunn|Chris Pratt, Vin ...|                2014|              121|   8.1|757074|            333.13|     76.0|
+|   2|          Prometheus|Adventure,Mystery...|Following clues t...|        Ridley Scott|Noomi Rapace, Log...|                2012|              124|     7|485820|            126.46|     65.0|
+|   3|               Split|     Horror,Thriller|Three girls are k...|  M. Night Shyamalan|James McAvoy, Any...|                2016|              117|   7.3|157606|            138.12|     62.0|
+|   4|                Sing|Animation,Comedy,...|In a city of huma...|Christophe Lourdelet|Matthew McConaugh...|                2016|              108|   7.2| 60545|            270.32|     59.0|
+|   5|       Suicide Squad|Action,Adventure,...|A secret governme...|          David Ayer|Will Smith, Jared...|                2016|              123|   6.2|393727|            325.02|     40.0|
+|   6|      The Great Wall|Action,Adventure,...|European mercenar...|         Yimou Zhang|Matt Damon, Tian ...|                2016|              103|   6.1| 56036|             45.13|     42.0|
+|   7|          La La Land|  Comedy,Drama,Music|A jazz pianist fa...|     Damien Chazelle|Ryan Gosling, Emm...|                2016|              128|   8.3|258682|            151.06|     93.0|
+|   8|            Mindhorn|              Comedy|"A has-been actor...| whom he believes...|          Sean Foley|Essie Davis, Andr...|             2016|    89|   6.4|            2490.0|     null|
+|   9|  The Lost City of Z|Action,Adventure,...|A true-life drama...|          James Gray|Charlie Hunnam, R...|                2016|              141|   7.1|  7188|              8.01|     78.0|
+|  10|          Passengers|Adventure,Drama,R...|A spacecraft trav...|       Morten Tyldum|Jennifer Lawrence...|                2016|              116|     7|192177|            100.01|     41.0|
+|  11|Fantastic Beasts ...|Adventure,Family,...|The adventures of...|         David Yates|Eddie Redmayne, K...|                2016|              133|   7.5|232072|            234.02|     66.0|
+|  12|      Hidden Figures|Biography,Drama,H...|The story of a te...|      Theodore Melfi|Taraji P. Henson,...|                2016|              127|   7.8| 93103|            169.27|     74.0|
+|  13|           Rogue One|Action,Adventure,...|The Rebel Allianc...|      Gareth Edwards|Felicity Jones, D...|                2016|              133|   7.9|323118|            532.17|     65.0|
+|  14|               Moana|Animation,Adventu...|In Ancient Polyne...|        Ron Clements|Auli'i Cravalho, ...|                2016|              107|   7.7|118151|            248.75|     81.0|
+|  15|            Colossal| Action,Comedy,Drama|Gloria is an out-...|     Nacho Vigalondo|Anne Hathaway, Ja...|                2016|              109|   6.4|  8612|              2.87|     70.0|
+|  16|The Secret Life o...|Animation,Adventu...|The quiet life of...|        Chris Renaud|Louis C.K., Eric ...|                2016|               87|   6.6|120259|            368.31|     61.0|
+|  17|       Hacksaw Ridge|Biography,Drama,H...|WWII American Arm...|          Mel Gibson|Andrew Garfield, ...|                2016|              139|   8.2|211760|             67.12|     71.0|
+|  18|        Jason Bourne|     Action,Thriller|The CIA's most da...|     Paul Greengrass|Matt Damon, Tommy...|                2016|              123|   6.7|150823|            162.16|     58.0|
+|  19|                Lion|     Biography,Drama|A five-year-old I...|         Garth Davis|Dev Patel, Nicole...|                2016|              118|   8.1|102061|             51.69|     69.0|
+|  20|             Arrival|Drama,Mystery,Sci-Fi|When twelve myste...|    Denis Villeneuve|Amy Adams, Jeremy...|                2016|              116|     8|340798|             100.5|     81.0|
++----+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-----------------+------+------+------------------+---------+
+only showing top 20 rows
+
+>>>
+>>>
+>>> # Rename the column--------------------
+>>>
+>>>
+>>> df.withColumnRenamed('Revenue (Millions)'
+... ,'Revenue')
+DataFrame[Rank: int, Title: string, Genre: string, Description: string, Director: string, Actors: string, Year: string, Runtime (Minutes): string, Rating: string, Votes: string, Revenue: double, Metascore: double]
+>>> df.head(1)
+[Row(Rank=1, Title='Guardians of the Galaxy', Genre='Action,Adventure,Sci-Fi', Description='A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.', Director='James Gunn', Actors='Chris Pratt, Vin Diesel, Bradley Cooper, Zoe Saldana', Year='2014', Runtime (Minutes)='121', Rating='8.1', Votes='757074', Revenue (Millions)=333.13, Metascore=76.0)]
+>>> df.withColumnRenamed('Revenue (Millions)','Revenue')
+DataFrame[Rank: int, Title: string, Genre: string, Description: string, Director: string, Actors: string, Year: string, Runtime (Minutes): string, Rating: string, Votes: string, Revenue: double, Metascore: double]
+>>> df.head(1)
+[Row(Rank=1, Title='Guardians of the Galaxy', Genre='Action,Adventure,Sci-Fi', Description='A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.', Director='James Gunn', Actors='Chris Pratt, Vin Diesel, Bradley Cooper, Zoe Saldana', Year='2014', Runtime (Minutes)='121', Rating='8.1', Votes='757074', Revenue (Millions)=333.13, Metascore=76.0)]
+>>> df2 = df.withColumnRenamed('Revenue (Millions)','Revenue')
+>>> df2.head(1)
+[Row(Rank=1, Title='Guardians of the Galaxy', Genre='Action,Adventure,Sci-Fi', Description='A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.', Director='James Gunn', Actors='Chris Pratt, Vin Diesel, Bradley Cooper, Zoe Saldana', Year='2014', Runtime (Minutes)='121', Rating='8.1', Votes='757074', Revenue=333.13, Metascore=76.0)]
+>>>
+>>>
+>>>
